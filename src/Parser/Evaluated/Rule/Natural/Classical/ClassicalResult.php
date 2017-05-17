@@ -45,11 +45,17 @@ class ClassicalResult implements ParsingRuleInterface
         $descriptionTag = $dom
             ->xpathQuery("descendant::span[@class='st']", $node)
             ->item(0);
+        
+         $subtitle = $dom
+            ->cssQuery(".slp", $node)
+            ->item(0);
 
         return [
             'title'   => $aTag->nodeValue,
             'url'     => $dom->getUrl()->resolveAsString($aTag->getAttribute('href')),
             'destination' => $destinationTag ? $destinationTag->nodeValue : null,
+            'subtitle' => $subtitle ? $subtitle->nodeValue : null,
+
             // trim needed for mobile results coming with an initial space
             'description' => $descriptionTag ? trim($descriptionTag->nodeValue) : null
         ];
